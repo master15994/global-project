@@ -12,13 +12,10 @@ import { MainLayoutComponent } from './shared/components/main-layout/main-layout
     AppComponent,
     HomePageComponent,
     PostPageComponent,
-    MainLayoutComponent
+    MainLayoutComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule
-  ],
+  imports: [BrowserModule, AppRoutingModule],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
