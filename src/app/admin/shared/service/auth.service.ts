@@ -1,12 +1,14 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, tap } from 'rxjs';
+import { Observable, Subject, catchError, tap, throwError } from 'rxjs';
 import { environment } from 'src/app/environment/environment';
 import { FbAuthResponse } from 'src/app/environment/inteface';
 import { User } from 'src/app/shared/inteface';
 
 @Injectable()
 export class AuthService {
+  public error$: Subject<string> = new Subject<string>();
+
   get token(): string {
     return '';
   }
@@ -15,10 +17,25 @@ export class AuthService {
   login(user: User): Observable<any> {
     return this.http
       .post(
-        `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${environment.apiKey}`,
+        `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${environment.apiKey}  `,
         user
       )
-      .pipe(tap(this.setToken));
+      .pipe(tap(this.setToken), catchError(this.handleError.bind));
+  }
+
+  handleError(error: HttpErrorResponse) {
+    const { message } = error.error.error;
+    switch (message) {
+      case 'EMAIL_NOT_FOUND':
+        this.error$.next('Такой email не сущ.');
+        break;
+      case 'INVALID_EMAIL':
+        this.error$.next('Неверный email');
+        break;
+      case 'INVALID_PASSWORD':
+        this.error$.next('Неверный пароль');
+        break;
+    }
   }
 
   logout() {}
@@ -28,6 +45,6 @@ export class AuthService {
   }
 
   private setToken(res: any) {
-    console.log(res);
+    const expDate = new Date(new Date().getTime());
   }
 }

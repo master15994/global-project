@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 export class LoginPageComponent implements OnInit {
   form!: FormGroup;
 
-  constructor(private auth: AuthService, private router: Router) {}
+  constructor(public auth: AuthService, private router: Router) {}
   ngOnInit(): void {
     this.form = new FormGroup({
       email: new FormControl(null, [Validators.email, Validators.required]),
@@ -23,10 +23,10 @@ export class LoginPageComponent implements OnInit {
     });
   }
   sumbit() {
-    this.form.invalid;
     if (this.form.invalid) {
       return;
     }
+
     const user: User = {
       email: this.form.value.email,
       password: this.form.value.password,
