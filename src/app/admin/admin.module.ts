@@ -11,6 +11,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from './shared/service/auth.service';
 import { HttpClientModule } from '@angular/common/http';
 import { SharedModule } from '../shared/shared.module';
+import { AuthGuard } from './shared/service/auth.guard';
 
 @NgModule({
   declarations: [
@@ -34,14 +35,26 @@ import { SharedModule } from '../shared/shared.module';
         children: [
           { path: '', redirectTo: '/admin/login', pathMatch: 'full' },
           { path: 'login', component: LoginPageComponent },
-          { path: 'dashboard', component: DashboardPageComponent },
-          { path: 'create', component: CreatePageComponent },
-          { path: 'post/:id/edit', component: EditPageComponent },
+          {
+            path: 'dashboard',
+            component: DashboardPageComponent,
+            canActivate: [AuthGuard],
+          },
+          {
+            path: 'create',
+            component: CreatePageComponent,
+            canActivate: [AuthGuard],
+          },
+          {
+            path: 'post/:id/edit',
+            component: EditPageComponent,
+            canActivate: [AuthGuard],
+          },
         ],
       },
     ]),
   ],
   exports: [RouterModule],
-  providers: [AuthService],
+  providers: [AuthService, AuthGuard],
 })
 export class AdminModule {}
