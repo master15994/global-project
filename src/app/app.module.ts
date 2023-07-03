@@ -8,7 +8,7 @@ import { PostPageComponent } from './post-page/post-page.component';
 import { MainLayoutComponent } from './shared/components/main-layout/main-layout.component';
 import { PostComponent } from './shared/components/post/post.component';
 import { SharedModule } from './shared/shared.module';
-
+import { ReactiveFormsModule } from '@angular/forms';
 @NgModule({
   declarations: [
     AppComponent,
@@ -17,7 +17,7 @@ import { SharedModule } from './shared/shared.module';
     MainLayoutComponent,
     PostComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, SharedModule],
+  imports: [BrowserModule, AppRoutingModule, SharedModule, ReactiveFormsModule],
   providers: [],
   bootstrap: [AppComponent],
 })

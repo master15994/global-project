@@ -38,17 +38,14 @@ import { AuthGuard } from './shared/service/auth.guard';
           {
             path: 'dashboard',
             component: DashboardPageComponent,
-            canActivate: [AuthGuard],
           },
           {
             path: 'create',
             component: CreatePageComponent,
-            canActivate: [AuthGuard],
           },
           {
             path: 'post/:id/edit',
             component: EditPageComponent,
-            canActivate: [AuthGuard],
           },
         ],
       },

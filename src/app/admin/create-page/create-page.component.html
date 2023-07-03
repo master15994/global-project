@@ -1,1 +1,32 @@
-<p>create-page works!</p>
+<form [formGroup]="form" (ngSubmit)="sumbit()">
+    <h1>Создание поста </h1>
+    <div [ngClass]="{invalid:form.get('title')?.touched && form.get('title')?.invalid}" class="form-control">
+
+        <label for="title">Названия поста:</label>
+        <input id="title" type="text" formControlName="title">
+
+        <div *ngIf="form.get('title')?.touched && form.get('title')?.invalid" class="validation">
+            <small *ngIf="form.get('title')?.errors?.['required']">Введите название поста
+            </small>
+        </div>
+    </div>
+
+    <div class="form-control">
+        <label for="">Контент поста</label>
+    </div>
+
+    <div [ngClass]="{invalid:form.get('author')?.touched && form.get('author')?.invalid}" class="form-control">
+
+        <label for="author">Названия поста:</label>
+        <input id="author" type="text" formControlName="author">
+
+        <div *ngIf="form.get('author')?.touched && form.get('author')?.invalid" class="validation">
+            <small *ngIf="form.get('author')?.errors?.['required']">Введите автора поста
+            </small>
+        </div>
+    </div>
+
+    <button type="submit" [disabled]="form.invalid" class="btn btn-block btn-dark">
+        Создать пост</button>
+
+</form>

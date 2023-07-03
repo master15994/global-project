@@ -20,22 +20,31 @@ export class AuthService {
         `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${environment.apiKey}  `,
         user
       )
-      .pipe(tap(this.setToken), catchError(this.handleError.bind));
+      .pipe(
+        tap(this.setToken),
+        catchError(async (error) => this.handleError(error))
+      );
   }
 
-  handleError(error: HttpErrorResponse) {
+  private handleError(error: HttpErrorResponse) {
     const { message } = error.error.error;
+
     switch (message) {
       case 'EMAIL_NOT_FOUND':
-        this.error$.next('Такой email не сущ.');
+        this.error$.next('Такой email не существует.');
         break;
       case 'INVALID_EMAIL':
-        this.error$.next('Неверный email');
+        this.error$.next('Неверный email.');
         break;
       case 'INVALID_PASSWORD':
-        this.error$.next('Неверный пароль');
+        this.error$.next('Неверный пароль.');
+        break;
+      default:
+        this.error$.next('Произошла ошибка.');
         break;
     }
+
+    return throwError(error);
   }
 
   logout() {}
